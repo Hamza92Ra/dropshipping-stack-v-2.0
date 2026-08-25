@@ -68,31 +68,37 @@ export default function AdminToolForm({ tool }: { tool?: Tool }) {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-      {fields.map((f) => (
-        <label key={f.key} className="flex flex-col gap-1 text-sm">
-          <span>{f.label}</span>
-          {f.key === 'description' ? (
-            <textarea
-              value={form[f.key]}
-              onChange={(e) => set(f.key, e.target.value)}
-              required={f.required}
-              disabled={f.key === 'slug' && isEdit}
-              rows={4}
-              className="rounded-lg border px-3 py-2"
-              style={{ borderColor: 'var(--border)' }}
-            />
-          ) : (
-            <input
-              value={form[f.key]}
-              onChange={(e) => set(f.key, e.target.value)}
-              required={f.required}
-              disabled={f.key === 'slug' && isEdit}
-              className="rounded-lg border px-3 py-2"
-              style={{ borderColor: 'var(--border)' }}
-            />
-          )}
-        </label>
-      ))}
+      {fields.map((f) => {
+  const isSlug = f.key === 'slug';
+
+  return (
+    <label key={f.key} className="flex flex-col gap-1 text-sm">
+      <span>{f.label}</span>
+
+      {f.key === 'description' ? (
+        <textarea
+          value={form[f.key]}
+          onChange={(e) => set(f.key, e.target.value)}
+          required={f.required}
+          disabled={isEdit && isSlug}
+          rows={4}
+          className="rounded-lg border px-3 py-2"
+          style={{ borderColor: 'var(--border)' }}
+        />
+      ) : (
+        <input
+          value={form[f.key]}
+          onChange={(e) => set(f.key, e.target.value)}
+          required={f.required}
+          disabled={isEdit && isSlug}
+          className="rounded-lg border px-3 py-2"
+          style={{ borderColor: 'var(--border)' }}
+        />
+      )}
+    </label>
+  );
+})}
+
 
       {error && <p className="text-sm text-red-600">{error}</p>}
 
