@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #f8f7f2;
+  --surface: #ffffff;
+  --text: #22281f;
+  --text-muted: #5c6656;
+  --border: #e1e4d9;
+  --accent: #5f8151;
+  --accent-2: #d9841c;
+}
+
+[data-theme="dark"] {
+  --bg: #14170f;
+  --surface: #1c2118;
+  --text: #eef1e8;
+  --text-muted: #a7b19a;
+  --border: #2c3325;
+  --accent: #7d9d70;
+  --accent-2: #e69f33;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+}
