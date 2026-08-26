@@ -1,4 +1,4 @@
-import { notFound } from 'next/navigation';
+﻿import { notFound } from 'next/navigation';
 import { queryOne } from '@/lib/db';
 import type { Tool } from '@/lib/types';
 import Image from 'next/image';
@@ -6,8 +6,13 @@ import UpvoteButton from '@/components/UpvoteButton';
 
 export const revalidate = 300;
 
-export default async function ToolPage({ params }: { params: { slug: string } }) {
-  const tool = await queryOne<Tool>('SELECT * FROM tools WHERE slug = ?', [params.slug]);
+export default async function ToolPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const tool = await queryOne<Tool>('SELECT * FROM tools WHERE slug = ?', [slug]);
   if (!tool) notFound();
 
   return (
@@ -27,10 +32,10 @@ export default async function ToolPage({ params }: { params: { slug: string } })
       <p className="mt-6 leading-relaxed">{tool.description}</p>
 
       <div className="mt-8 flex items-center gap-4">
-        <a
+        
           href={`/api/go?tool=${tool.slug}`}
           className="rounded-full bg-sage-500 px-6 py-2 font-medium text-white hover:bg-sage-600"
-        >
+        <a>
           Visit {tool.name} →
         </a>
         <span className="text-amber-600">{tool.pricing ?? 'See pricing'}</span>
