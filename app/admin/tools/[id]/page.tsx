@@ -4,12 +4,18 @@ import { queryOne } from '@/lib/db';
 import type { Tool } from '@/lib/types';
 import AdminToolForm from '@/components/AdminToolForm';
 
-export default async function EditToolPage({ params }: { params: { id: string } }) {
+export default async function EditToolPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
   const user = await getSession();
   if (!user) redirect('/admin/login');
   if (user.role !== 'admin') redirect('/');
 
-  const tool = await queryOne<Tool>('SELECT * FROM tools WHERE id = ?', [params.id]);
+  const { id } = await params;
+
+  const tool = await queryOne<Tool>('SELECT * FROM tools WHERE id = ?', [id]);
   if (!tool) notFound();
 
   return (
