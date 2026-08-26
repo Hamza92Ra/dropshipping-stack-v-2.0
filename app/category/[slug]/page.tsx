@@ -4,8 +4,13 @@ import ToolCard from '@/components/ToolCard';
 
 export const revalidate = 300;
 
-export default async function CategoryPage({ params }: { params: { slug: string } }) {
-  const category = params.slug.replace(/-/g, ' ');
+export default async function CategoryPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const category = slug.replace(/-/g, ' ');
   const tools = await query<Tool>(
     'SELECT * FROM tools WHERE category = ? ORDER BY upvotes DESC',
     [category]
